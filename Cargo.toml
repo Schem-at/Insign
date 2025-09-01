@@ -1,0 +1,22 @@
+[package]
+name = "insign"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Insign: a tiny DSL for Minecraft build regions & metadata"
+repository = "https://github.com/Schem-at/Insign"
+readme = "README.md"
+keywords = ["minecraft", "dsl", "schematics", "regions", "metadata"]
+categories = ["parsing", "data-structures"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+
+# Keep output ordering deterministic
+indexmap = { version = "2", features = ["serde"] }
+
+[dev-dependencies]
+insta = { version = "1", features = ["yaml"] }
+proptest = "1"
