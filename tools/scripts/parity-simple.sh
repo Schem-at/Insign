@@ -16,7 +16,13 @@ echo "  ✅ insign-core built successfully"
 
 # Build FFI  
 echo "  Building insign-ffi..."
-cargo build -p insign-ffi --release >/dev/null 2>&1
+# Build for x86_64 to match Python architecture on this system
+if [[ "$(uname)" == "Darwin" ]] && [[ "$(python3 -c 'import platform; print(platform.machine())')" == "x86_64" ]]; then
+    cargo build -p insign-ffi --release --target x86_64-apple-darwin >/dev/null 2>&1
+    cp target/x86_64-apple-darwin/release/libinsign_ffi.dylib target/release/libinsign_ffi.dylib
+else
+    cargo build -p insign-ffi --release >/dev/null 2>&1
+fi
 echo "  ✅ insign-ffi built successfully"
 
 # Build WASM
