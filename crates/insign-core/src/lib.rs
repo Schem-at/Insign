@@ -86,19 +86,11 @@ pub enum ParseError {
         position: usize,
     },
     
-    #[error("Region '{region}' cannot be both accumulator and defined. Accumulator sources: {accumulator_sources:?}, defined source: {defined_source:?}")]
-    MixedRegionMode {
-        region: String,
-        accumulator_sources: Vec<crate::ast::SourceLocation>,
-        defined_source: crate::ast::SourceLocation,
-    },
+    #[error("Region '{region}' cannot be both accumulator and defined. Accumulator sources: {accumulator_sources:?}, defined source: {defined_source:?}", region = .0.region, accumulator_sources = .0.accumulator_sources, defined_source = .0.defined_source)]
+    MixedRegionMode(Box<MixedRegionModeError>),
     
-    #[error("Region '{region}' defined multiple times. First at {first_source:?}, duplicate at {duplicate_source:?}")]
-    DuplicateRegionDefinition {
-        region: String,
-        first_source: crate::ast::SourceLocation,
-        duplicate_source: crate::ast::SourceLocation,
-    },
+    #[error("Region '{region}' defined multiple times. First at {first_source:?}, duplicate at {duplicate_source:?}", region = .0.region, first_source = .0.first_source, duplicate_source = .0.duplicate_source)]
+    DuplicateRegionDefinition(Box<DuplicateRegionDefinitionError>),
     
     #[error("Internal error: {message}")]
     Internal {
@@ -123,20 +115,40 @@ pub enum ParseError {
         cycle: Vec<String>,
     },
     
-    #[error("Metadata conflict for region '{region}' key '{key}': different values across tuples. First: {first_value} at {first_source}, Conflict: {conflict_value} at {conflict_source}")]
-    MetadataConflict {
-        region: String,
-        key: String,
-        first_value: serde_json::Value,
-        first_source: crate::ast::SourceLocation,
-        conflict_value: serde_json::Value,
-        conflict_source: crate::ast::SourceLocation,
-    },
+    #[error("Metadata conflict for region '{region}' key '{key}': different values across tuples. First: {first_value} at {first_source}, Conflict: {conflict_value} at {conflict_source}", region = .0.region, key = .0.key, first_value = .0.first_value, first_source = .0.first_source, conflict_value = .0.conflict_value, conflict_source = .0.conflict_source)]
+    MetadataConflict(Box<MetadataConflictError>),
     
     #[error("No current region found for metadata statement at {source}. Hint: Metadata statements like '#key=value' must be placed after a geometry statement (@rc, @ac, or @region=expr) in the same tuple.")]
     NoCurrentRegion {
         source: crate::ast::SourceLocation,
     },
+}
+
+/// Large error struct for MixedRegionMode to reduce enum size.
+#[derive(Debug)]
+pub struct MixedRegionModeError {
+    pub region: String,
+    pub accumulator_sources: Vec<crate::ast::SourceLocation>,
+    pub defined_source: crate::ast::SourceLocation,
+}
+
+/// Large error struct for DuplicateRegionDefinition to reduce enum size.
+#[derive(Debug)]
+pub struct DuplicateRegionDefinitionError {
+    pub region: String,
+    pub first_source: crate::ast::SourceLocation,
+    pub duplicate_source: crate::ast::SourceLocation,
+}
+
+/// Large error struct for MetadataConflict to reduce enum size.
+#[derive(Debug)]
+pub struct MetadataConflictError {
+    pub region: String,
+    pub key: String,
+    pub first_value: serde_json::Value,
+    pub first_source: crate::ast::SourceLocation,
+    pub conflict_value: serde_json::Value,
+    pub conflict_source: crate::ast::SourceLocation,
 }
 
 /// Compile DSL input units into a structured region map.

@@ -56,14 +56,14 @@ impl EvaluatedRegionTable {
         // Check for existing metadata with different value
         if let Some(existing) = entry.metadata.get(&key) {
             if existing.value != assignment.value {
-                return Err(ParseError::MetadataConflict {
+                return Err(ParseError::MetadataConflict(Box::new(crate::MetadataConflictError {
                     region,
                     key,
                     first_value: existing.value.clone(),
                     first_source: existing.source.clone(),
                     conflict_value: assignment.value,
                     conflict_source: assignment.source,
-                });
+                })));
             }
             // Identical values are allowed - just keep the existing one
         } else {
@@ -335,11 +335,11 @@ mod tests {
         
         assert!(result.is_err());
         match result.unwrap_err() {
-            ParseError::MetadataConflict { region, key, first_value, conflict_value, .. } => {
-                assert_eq!(region, "test");
-                assert_eq!(key, "label");
-                assert_eq!(first_value, json!("First"));
-                assert_eq!(conflict_value, json!("Second"));
+            ParseError::MetadataConflict(err) => {
+                assert_eq!(err.region, "test");
+                assert_eq!(err.key, "label");
+                assert_eq!(err.first_value, json!("First"));
+                assert_eq!(err.conflict_value, json!("Second"));
             },
             _ => panic!("Expected MetadataConflict error"),
         }

@@ -333,7 +333,7 @@ impl<'a> GeometryParser<'a> {
     
     /// Parse XOR expressions (lowest precedence)
     fn parse_xor(&mut self) -> Result<BooleanExpr, ParseError> {
-        let mut left = self.parse_difference()?;
+        let left = self.parse_difference()?;
         
         loop {
             self.skip_whitespace();
@@ -363,7 +363,7 @@ impl<'a> GeometryParser<'a> {
     
     /// Parse difference expressions
     fn parse_difference(&mut self) -> Result<BooleanExpr, ParseError> {
-        let mut left = self.parse_union()?;
+        let left = self.parse_union()?;
         
         loop {
             self.skip_whitespace();
@@ -412,7 +412,7 @@ impl<'a> GeometryParser<'a> {
     
     /// Parse intersection expressions (highest precedence)
     fn parse_intersection(&mut self) -> Result<BooleanExpr, ParseError> {
-        let mut left = self.parse_term()?;
+        let left = self.parse_term()?;
         
         loop {
             self.skip_whitespace();

@@ -38,7 +38,7 @@ pub fn filter_comments(input: &str) -> String {
 /// 
 /// # Returns
 /// A vector of statement slices covering the entire input
-pub fn split_statements(input: &str) -> Vec<StatementSlice> {
+pub fn split_statements(input: &str) -> Vec<StatementSlice<'_>> {
     if input.is_empty() {
         return Vec::new();
     }

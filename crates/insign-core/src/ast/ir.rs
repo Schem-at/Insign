@@ -110,19 +110,19 @@ impl RegionTable {
         match self.regions.get(&region) {
             Some(RegionEntry::Accumulator { sources, .. }) => {
                 // Conflict: region is both accumulator and defined
-                return Err(ParseError::MixedRegionMode {
+                return Err(ParseError::MixedRegionMode(Box::new(crate::MixedRegionModeError {
                     region,
                     accumulator_sources: sources.clone(),
                     defined_source: source,
-                });
+                })));
             },
             Some(RegionEntry::Defined { source: existing_source, .. }) => {
                 // Multiple definitions - use the first one found
-                return Err(ParseError::DuplicateRegionDefinition {
+                return Err(ParseError::DuplicateRegionDefinition(Box::new(crate::DuplicateRegionDefinitionError {
                     region,
                     first_source: existing_source.clone(),
                     duplicate_source: source,
-                });
+                })));
             },
             Some(RegionEntry::Anonymous { .. }) => {
                 // Should not happen - anonymous regions use generated keys
@@ -149,11 +149,11 @@ impl RegionTable {
             },
             Some(RegionEntry::Defined { source: defined_source, .. }) => {
                 // Conflict: region is both defined and accumulator
-                return Err(ParseError::MixedRegionMode {
+                return Err(ParseError::MixedRegionMode(Box::new(crate::MixedRegionModeError {
                     region,
                     accumulator_sources: vec![source],
                     defined_source: defined_source.clone(),
-                });
+                })));
             },
             Some(RegionEntry::Anonymous { .. }) => {
                 // Should not happen - anonymous regions use generated keys
@@ -280,11 +280,11 @@ mod tests {
         
         assert!(result.is_err());
         match result.unwrap_err() {
-            ParseError::MixedRegionMode { region, accumulator_sources, defined_source } => {
-                assert_eq!(region, "test");
-                assert_eq!(accumulator_sources.len(), 1);
-                assert_eq!(accumulator_sources[0], SourceLocation::new(0, 0));
-                assert_eq!(defined_source, SourceLocation::new(1, 0));
+            ParseError::MixedRegionMode(err) => {
+                assert_eq!(err.region, "test");
+                assert_eq!(err.accumulator_sources.len(), 1);
+                assert_eq!(err.accumulator_sources[0], SourceLocation::new(0, 0));
+                assert_eq!(err.defined_source, SourceLocation::new(1, 0));
             }
             _ => panic!("Expected MixedRegionMode error"),
         }
@@ -305,11 +305,11 @@ mod tests {
         
         assert!(result.is_err());
         match result.unwrap_err() {
-            ParseError::MixedRegionMode { region, accumulator_sources, defined_source } => {
-                assert_eq!(region, "test");
-                assert_eq!(accumulator_sources.len(), 1);
-                assert_eq!(accumulator_sources[0], SourceLocation::new(1, 0));
-                assert_eq!(defined_source, SourceLocation::new(0, 0));
+            ParseError::MixedRegionMode(err) => {
+                assert_eq!(err.region, "test");
+                assert_eq!(err.accumulator_sources.len(), 1);
+                assert_eq!(err.accumulator_sources[0], SourceLocation::new(1, 0));
+                assert_eq!(err.defined_source, SourceLocation::new(0, 0));
             }
             _ => panic!("Expected MixedRegionMode error"),
         }
@@ -412,10 +412,10 @@ mod tests {
         
         assert!(result.is_err());
         match result.unwrap_err() {
-            ParseError::DuplicateRegionDefinition { region, first_source, duplicate_source } => {
-                assert_eq!(region, "test");
-                assert_eq!(first_source, SourceLocation::new(0, 0));
-                assert_eq!(duplicate_source, SourceLocation::new(1, 0));
+            ParseError::DuplicateRegionDefinition(err) => {
+                assert_eq!(err.region, "test");
+                assert_eq!(err.first_source, SourceLocation::new(0, 0));
+                assert_eq!(err.duplicate_source, SourceLocation::new(1, 0));
             }
             _ => panic!("Expected DuplicateRegionDefinition error"),
         }
