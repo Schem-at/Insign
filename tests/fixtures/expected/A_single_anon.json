@@ -1,0 +1,22 @@
+{
+  "__anon_0_0": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          2,
+          1
+        ]
+      ]
+    ],
+    "metadata": {
+      "doc.label": "Patch A",
+      "doc.type": "test"
+    }
+  }
+}

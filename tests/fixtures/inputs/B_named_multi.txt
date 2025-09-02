@@ -1,0 +1,8 @@
+@dataloop=rc([0,0,0],[31,7,15])
+#dataloop:type="accumulator"
+
+@dataloop=rc([32,0,0],[63,7,15])
+#performance="fast"
+
+@cache=ac([100,100,100],[103,103,103])
+#cache:level=2

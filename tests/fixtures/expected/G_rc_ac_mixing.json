@@ -1,0 +1,71 @@
+{
+  "absolute_region": {
+    "bounding_boxes": [
+      [
+        [
+          100,
+          100,
+          100
+        ],
+        [
+          107,
+          107,
+          107
+        ]
+      ]
+    ],
+    "metadata": {
+      "type": "absolute"
+    }
+  },
+  "mixed": {
+    "bounding_boxes": [
+      [
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          17,
+          7,
+          7
+        ]
+      ],
+      [
+        [
+          200,
+          200,
+          200
+        ],
+        [
+          207,
+          207,
+          207
+        ]
+      ]
+    ],
+    "metadata": {
+      "accumulates": "both_coordinate_types"
+    }
+  },
+  "relative_region": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          7
+        ]
+      ]
+    ],
+    "metadata": {
+      "type": "relative"
+    }
+  }
+}

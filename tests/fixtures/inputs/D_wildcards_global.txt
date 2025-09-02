@@ -1,0 +1,10 @@
+@cpu.core=rc([0,0,0],[3,3,3])
+@cpu.cache=rc([4,0,0],[7,3,3])
+@gpu.core=rc([10,0,0],[13,3,3])
+@memory.bank=rc([20,0,0],[23,3,3])
+
+#cpu.*:power="low"
+#cpu.*:architecture="x86"
+#memory.*:type="DDR4"
+#$global:version="1.2.3"
+#$global:timestamp="2024-01-01T12:00:00Z"

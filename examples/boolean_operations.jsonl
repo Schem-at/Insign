@@ -1,0 +1,6 @@
+[[0, 0, 0], "; Boolean operations demo - requires 'boolean_ops' feature\n; Define base shapes\n@box=rc([0,0,0],[10,10,10])\n@hole=rc([3,3,3],[7,7,7])"]
+[[0, 0, 0], "; Create compound shapes using boolean operations\n@hollow=box-hole\n; Difference: box minus hole creates a hollow box"]
+[[5, 5, 5], "@circle_approx=rc([0,0,0],[3,3,3])\n@square=rc([1,1,1],[4,4,4])\n@intersection=circle_approx&square"]
+[[10, 10, 10], "; XOR creates symmetric difference\n@shape_a=rc([0,0,0],[2,2,2])\n@shape_b=rc([1,1,1],[3,3,3])\n@xor_result=shape_a^shape_b"]
+[[0, 0, 0], "; Complex expression with precedence: & > + > - > ^\n@complex=box+circle_approx&square-hole^shape_a\n; Equivalent to: ((box + (circle_approx & square)) - hole) ^ shape_a"]
+[[0, 0, 0], "; Add metadata\n#hollow:type=\"hollow_box\"\n#intersection:type=\"intersection\"\n#complex:description=\"Complex boolean expression demo\""]

@@ -1,0 +1,12 @@
+@base1=rc([0,0,0],[7,7,7])
+@base2=rc([8,0,0],[15,7,7])
+@extension=rc([16,0,0],[23,7,7])
+
+@level1=base1+base2
+@level2=level1+extension
+@final=(level1+level2)+extension
+
+#level1:description="Simple union"
+#level2:description="Extended union"
+#final:description="Complex nested expression"
+#final:components=["base1","base2","extension"]

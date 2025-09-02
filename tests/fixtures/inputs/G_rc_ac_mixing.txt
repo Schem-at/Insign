@@ -1,0 +1,9 @@
+@relative_region=rc([0,0,0],[7,7,7])
+#relative_region:type="relative"
+
+@absolute_region=ac([100,100,100],[107,107,107])
+#absolute_region:type="absolute"
+
+@mixed=rc([10,0,0],[17,7,7])
+@mixed=ac([200,200,200],[207,207,207])
+#mixed:accumulates="both_coordinate_types"

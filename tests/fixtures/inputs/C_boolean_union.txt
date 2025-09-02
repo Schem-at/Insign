@@ -1,0 +1,5 @@
+@base=rc([0,0,0],[7,7,7])
+@extension=rc([8,0,0],[15,7,7])
+@combined=base+extension
+#combined:type="union"
+#combined:components=["base","extension"]

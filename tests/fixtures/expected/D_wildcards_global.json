@@ -1,0 +1,95 @@
+{
+  "$global": {
+    "metadata": {
+      "timestamp": "2024-01-01T12:00:00Z",
+      "version": "1.2.3"
+    }
+  },
+  "cpu.*": {
+    "metadata": {
+      "architecture": "x86",
+      "power": "low"
+    }
+  },
+  "cpu.cache": {
+    "bounding_boxes": [
+      [
+        [
+          4,
+          0,
+          0
+        ],
+        [
+          7,
+          3,
+          3
+        ]
+      ]
+    ],
+    "metadata": {
+      "architecture": "x86",
+      "power": "low"
+    }
+  },
+  "cpu.core": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          3
+        ]
+      ]
+    ],
+    "metadata": {
+      "architecture": "x86",
+      "power": "low"
+    }
+  },
+  "gpu.core": {
+    "bounding_boxes": [
+      [
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          13,
+          3,
+          3
+        ]
+      ]
+    ],
+    "metadata": {}
+  },
+  "memory.*": {
+    "metadata": {
+      "type": "DDR4"
+    }
+  },
+  "memory.bank": {
+    "bounding_boxes": [
+      [
+        [
+          20,
+          0,
+          0
+        ],
+        [
+          23,
+          3,
+          3
+        ]
+      ]
+    ],
+    "metadata": {
+      "type": "DDR4"
+    }
+  }
+}

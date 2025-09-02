@@ -1,0 +1,8 @@
+@processor=rc([0,0,0],[15,15,15])
+#processor:specs={"cores":8,"freq":"3.2GHz","cache":{"L1":"32KB","L2":"256KB","L3":"8MB"},"features":["AVX2","SSE4","FMA"]}
+#processor:thermal={"tdp":65,"tj_max":100}
+
+@memory.controller=rc([16,0,0],[31,7,7]) #controller:channels=4 #controller:max_speed="DDR4-3200"
+
+@pcie.slots=rc([0,16,0],[63,31,7])
+#pcie.slots:config=[{"slot":1,"lanes":16,"version":"4.0"},{"slot":2,"lanes":8,"version":"4.0"},{"slot":3,"lanes":4,"version":"3.0"}]

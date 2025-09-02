@@ -1,0 +1,11 @@
+@negative=rc([-100,-50,-25],[100,50,25])
+#negative:type="spans_origin"
+
+@large=rc([1000000,2000000,3000000],[1000063,2000031,3000015])  
+#large:coordinates="very_large_values"
+
+@zero_size=rc([10,10,10],[10,10,10])
+#zero_size:warning="single_point_region"
+
+@backwards=rc([20,20,20],[10,10,10])
+#backwards:note="coordinates_will_be_normalized"

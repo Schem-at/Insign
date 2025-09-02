@@ -1,0 +1,5 @@
+{"pos": [0, 64, 0], "text": "@dataloop=rc([0,0,0],[31,8,15])\n#dataloop:doc.label=\"Data Loop\""}
+{"pos": [8, 64, 8], "text": "@dataloop.alu=rc([0,0,0],[14,6,6])\n#dataloop.alu:logic.word_size=8"}
+{"pos": [2, 64, 2], "text": "@dataloop.registers=rc([0,0,0],[10,5,4])+rc([12,0,0],[22,5,4])\n#dataloop.registers:logic.word_size=8"}
+{"pos": [50, 64, 0], "text": "@core=dataloop.alu+dataloop.registers\n#core:doc.note=\"ALU ∪ registers\""}
+{"pos": [100, 64, 0], "text": "#cpu.*:logic.clock_hz=4\n#$global:io.bus_width=8"}

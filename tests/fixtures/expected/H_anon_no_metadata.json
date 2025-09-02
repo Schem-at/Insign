@@ -1,0 +1,40 @@
+{
+  "__anon_0_4": {
+    "bounding_boxes": [
+      [
+        [
+          30,
+          0,
+          0
+        ],
+        [
+          33,
+          3,
+          3
+        ]
+      ]
+    ],
+    "metadata": {
+      "doc.label": "This anon has metadata"
+    }
+  },
+  "named": {
+    "bounding_boxes": [
+      [
+        [
+          20,
+          0,
+          0
+        ],
+        [
+          23,
+          3,
+          3
+        ]
+      ]
+    ],
+    "metadata": {
+      "has_metadata": true
+    }
+  }
+}

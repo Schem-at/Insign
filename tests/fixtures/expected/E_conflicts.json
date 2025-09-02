@@ -1,0 +1,4 @@
+{
+  "error": "Parser error: Metadata conflict for region 'test' key 'label': different values across tuples. First: \"First Value\" at tuple 0 statement 1, Conflict: \"Second Value\" at tuple 0 statement 3",
+  "error_type": "compilation_failure"
+}

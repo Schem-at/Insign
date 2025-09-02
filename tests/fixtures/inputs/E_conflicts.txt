@@ -1,0 +1,5 @@
+@test=rc([0,0,0],[1,1,1])
+#test:label="First Value"
+
+@test=rc([2,2,2],[3,3,3])
+#test:label="Second Value"

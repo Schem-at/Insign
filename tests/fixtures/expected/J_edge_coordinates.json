@@ -1,0 +1,78 @@
+{
+  "backwards": {
+    "bounding_boxes": [
+      [
+        [
+          10,
+          10,
+          10
+        ],
+        [
+          20,
+          20,
+          20
+        ]
+      ]
+    ],
+    "metadata": {
+      "note": "coordinates_will_be_normalized"
+    }
+  },
+  "large": {
+    "bounding_boxes": [
+      [
+        [
+          1000000,
+          2000000,
+          3000000
+        ],
+        [
+          1000063,
+          2000031,
+          3000015
+        ]
+      ]
+    ],
+    "metadata": {
+      "coordinates": "very_large_values"
+    }
+  },
+  "negative": {
+    "bounding_boxes": [
+      [
+        [
+          -100,
+          -50,
+          -25
+        ],
+        [
+          100,
+          50,
+          25
+        ]
+      ]
+    ],
+    "metadata": {
+      "type": "spans_origin"
+    }
+  },
+  "zero_size": {
+    "bounding_boxes": [
+      [
+        [
+          10,
+          10,
+          10
+        ],
+        [
+          10,
+          10,
+          10
+        ]
+      ]
+    ],
+    "metadata": {
+      "warning": "single_point_region"
+    }
+  }
+}

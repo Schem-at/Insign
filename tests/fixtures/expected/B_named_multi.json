@@ -1,0 +1,53 @@
+{
+  "cache": {
+    "bounding_boxes": [
+      [
+        [
+          100,
+          100,
+          100
+        ],
+        [
+          103,
+          103,
+          103
+        ]
+      ]
+    ],
+    "metadata": {
+      "level": 2,
+      "performance": "fast"
+    }
+  },
+  "dataloop": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          7,
+          15
+        ]
+      ],
+      [
+        [
+          32,
+          0,
+          0
+        ],
+        [
+          63,
+          7,
+          15
+        ]
+      ]
+    ],
+    "metadata": {
+      "type": "accumulator"
+    }
+  }
+}

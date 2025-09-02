@@ -13,10 +13,20 @@ categories = ["parsing", "data-structures"]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "1"
+clap = { version = "4", features = ["derive"] }
 
 # Keep output ordering deterministic
 indexmap = { version = "2", features = ["serde"] }
 
+[[bin]]
+name = "insign-cli"
+path = "src/bin/insign-cli.rs"
+
+[features]
+default = []
+boolean_ops = []
+
 [dev-dependencies]
 insta = { version = "1", features = ["yaml"] }
 proptest = "1"
+tempfile = "3"

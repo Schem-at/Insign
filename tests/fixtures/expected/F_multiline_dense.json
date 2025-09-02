@@ -1,0 +1,96 @@
+{
+  "controller": {
+    "metadata": {
+      "channels": 4,
+      "max_speed": "DDR4-3200"
+    }
+  },
+  "memory.controller": {
+    "bounding_boxes": [
+      [
+        [
+          16,
+          0,
+          0
+        ],
+        [
+          31,
+          7,
+          7
+        ]
+      ]
+    ],
+    "metadata": {}
+  },
+  "pcie.slots": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          16,
+          0
+        ],
+        [
+          63,
+          31,
+          7
+        ]
+      ]
+    ],
+    "metadata": {
+      "config": [
+        {
+          "lanes": 16,
+          "slot": 1,
+          "version": "4.0"
+        },
+        {
+          "lanes": 8,
+          "slot": 2,
+          "version": "4.0"
+        },
+        {
+          "lanes": 4,
+          "slot": 3,
+          "version": "3.0"
+        }
+      ]
+    }
+  },
+  "processor": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          15,
+          15
+        ]
+      ]
+    ],
+    "metadata": {
+      "specs": {
+        "cache": {
+          "L1": "32KB",
+          "L2": "256KB",
+          "L3": "8MB"
+        },
+        "cores": 8,
+        "features": [
+          "AVX2",
+          "SSE4",
+          "FMA"
+        ],
+        "freq": "3.2GHz"
+      },
+      "thermal": {
+        "tdp": 65,
+        "tj_max": 100
+      }
+    }
+  }
+}
