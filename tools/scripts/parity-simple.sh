@@ -52,6 +52,14 @@ for fixture in "${FIXTURES[@]}"; do
     input_file="fixtures/inputs/${fixture}.json"
     expected_file="fixtures/expected/${fixture}.json"
     
+    # Check if input file exists
+    if [[ ! -f "$input_file" ]]; then
+        echo "  ❌ FAIL - Input file $input_file not found"
+        FAILED=$((FAILED + 1))
+        echo
+        continue
+    fi
+    
     # Run FFI and WASM
     ffi_output=$(python3 tools/parity/ffi_runner.py "$input_file" 2>/dev/null || echo "ERROR")
     wasm_output=$(node tools/parity/wasm_runner.js "$input_file" 2>/dev/null || echo "ERROR")
@@ -62,12 +70,14 @@ for fixture in "${FIXTURES[@]}"; do
     
     if [[ "$ffi_canon" == "$wasm_canon" ]]; then
         echo "  ✅ PASS - FFI and WASM outputs are identical"
-        ((PASSED++))
+        PASSED=$((PASSED + 1))
     else
         echo "  ❌ FAIL - Output mismatch"
         echo "  FFI:  $ffi_output"
         echo "  WASM: $wasm_output"
-        ((FAILED++))
+        echo "  FFI Canon:  $ffi_canon"
+        echo "  WASM Canon: $wasm_canon"
+        FAILED=$((FAILED + 1))
     fi
     echo
 done
