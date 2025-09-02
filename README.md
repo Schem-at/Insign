@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Schem-at/Insign/workflows/CI/badge.svg)](https://github.com/Schem-at/Insign/actions/workflows/ci.yml)
 [![Security](https://github.com/Schem-at/Insign/workflows/Security/badge.svg)](https://github.com/Schem-at/Insign/actions/workflows/security.yml)
-[![Crates.io](https://img.shields.io/crates/v/insign-core.svg)](https://crates.io/crates/insign-core)
+[![Crates.io](https://img.shields.io/crates/v/insign.svg)](https://crates.io/crates/insign)
 [![Documentation](https://docs.rs/insign-core/badge.svg)](https://docs.rs/insign-core)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -267,13 +267,13 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-insign-core = "0.1.0"
+insign-core = "0.1.1"
 
 # For FFI bindings (Kotlin/JVM integration)
-insign-ffi = "0.1.0"
+insign-ffi = "0.1.1"
 
 # For WASM bindings (Web/Node.js)
-insign-wasm = "0.1.0"
+insign-wasm = "0.1.1"
 ```
 
 **Basic usage:**

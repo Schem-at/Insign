@@ -210,7 +210,7 @@ dependencies = [
 
 [[package]]
 name = "insign-ffi"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "insign",
  "libc",
@@ -220,7 +220,7 @@ dependencies = [
 
 [[package]]
 name = "insign-wasm"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "insign",
  "serde",

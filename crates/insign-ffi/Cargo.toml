@@ -1,6 +1,6 @@
 [package]
 name = "insign-ffi"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 description = "Insign: FFI bindings for C ABI"
@@ -11,7 +11,7 @@ name = "insign_ffi"
 crate-type = ["cdylib"]
 
 [dependencies]
-insign = { version = "0.1.0", path = "../insign-core" }
+insign = { version = "0.1.1", path = "../insign-core" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 libc = "0.2"
