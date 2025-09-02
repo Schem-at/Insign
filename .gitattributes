@@ -1,0 +1,19 @@
+# Ensure consistent line endings across platforms
+*.json text eol=lf
+*.txt text eol=lf
+
+# Cargo.lock should use consistent line endings
+Cargo.lock text eol=lf
+
+# Source code files
+*.rs text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.wasm binary

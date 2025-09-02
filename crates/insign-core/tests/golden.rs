@@ -126,7 +126,11 @@ fn golden_suite_validation() {
                 Ok(actual_dsl_map) => {
                     let actual_json = serde_json::to_string_pretty(&actual_dsl_map).unwrap();
 
-                    if actual_json == expected_content {
+                    // Normalize line endings for cross-platform compatibility
+                    let actual_normalized = actual_json.replace("\r\n", "\n");
+                    let expected_normalized = expected_content.replace("\r\n", "\n");
+
+                    if actual_normalized == expected_normalized {
                         println!("  ✅ PASS");
                         passed += 1;
                     } else {

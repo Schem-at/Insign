@@ -334,6 +334,7 @@ impl<'a> GeometryParser<'a> {
     }
 
     /// Parse XOR expressions (lowest precedence)
+    #[allow(clippy::never_loop)] // False positive: loop behavior depends on boolean_ops feature
     fn parse_xor(&mut self) -> Result<BooleanExpr, ParseError> {
         #[cfg(not(feature = "boolean_ops"))]
         let left = self.parse_difference()?;
@@ -366,6 +367,7 @@ impl<'a> GeometryParser<'a> {
     }
 
     /// Parse difference expressions
+    #[allow(clippy::never_loop)] // False positive: loop behavior depends on boolean_ops feature
     fn parse_difference(&mut self) -> Result<BooleanExpr, ParseError> {
         #[cfg(not(feature = "boolean_ops"))]
         let left = self.parse_union()?;
@@ -417,6 +419,7 @@ impl<'a> GeometryParser<'a> {
     }
 
     /// Parse intersection expressions (highest precedence)
+    #[allow(clippy::never_loop)] // False positive: loop behavior depends on boolean_ops feature
     fn parse_intersection(&mut self) -> Result<BooleanExpr, ParseError> {
         #[cfg(not(feature = "boolean_ops"))]
         let left = self.parse_term()?;
