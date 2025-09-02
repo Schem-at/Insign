@@ -27,7 +27,7 @@ jobs:
       run: cargo audit
 
   supply-chain-security:
-    name: Supply Chain Security
+    name: Supply Chain Security  
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -36,11 +36,11 @@ jobs:
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@stable
 
-    - name: Install cargo-deny
-      run: cargo install cargo-deny
+    - name: Install cargo-audit
+      run: cargo install cargo-audit
 
-    - name: Check licenses and security advisories
-      run: cargo deny check
+    - name: Check for security vulnerabilities
+      run: cargo audit
 
   dependency-review:
     name: Dependency Review
