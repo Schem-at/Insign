@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "crates/insign-core",
+    "crates/insign-core",  # Published as "insign"
     "crates/insign-ffi",
     "crates/insign-wasm",
 ]

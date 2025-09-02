@@ -219,7 +219,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "insign-core"
+name = "insign"
 version = "0.1.0"
 dependencies = [
  "clap",
@@ -236,7 +236,7 @@ dependencies = [
 name = "insign-ffi"
 version = "0.1.0"
 dependencies = [
- "insign-core",
+ "insign",
  "libc",
  "serde",
  "serde_json",
@@ -246,7 +246,7 @@ dependencies = [
 name = "insign-wasm"
 version = "0.1.0"
 dependencies = [
- "insign-core",
+ "insign",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",

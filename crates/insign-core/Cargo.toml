@@ -1,9 +1,9 @@
 [package]
-name = "insign-core"
+name = "insign"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-description = "Insign: a tiny DSL for Minecraft build regions & metadata - core library"
+description = "Insign: a tiny DSL for Minecraft build regions & metadata"
 repository = "https://github.com/Schem-at/Insign"
 readme = "../../README.md"
 keywords = ["minecraft", "dsl", "schematics", "regions", "metadata"]

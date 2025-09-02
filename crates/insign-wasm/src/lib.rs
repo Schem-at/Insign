@@ -3,7 +3,7 @@
 //! This crate exports a WASM interface for the Insign DSL compiler,
 //! allowing integration with web browsers and Node.js applications.
 
-use insign_core::compile;
+use insign::compile;
 use wasm_bindgen::prelude::*;
 
 /// Input format for JSON compilation
