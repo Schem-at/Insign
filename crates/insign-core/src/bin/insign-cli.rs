@@ -21,7 +21,7 @@ struct CliError {
 
 fn main() {
     let matches = Command::new("insign-cli")
-        .version("0.1.0")
+        .version("0.1.1")
         .about("Compiles Insign DSL from JSONL input to regions+metadata JSON")
         .arg(
             Arg::new("input")

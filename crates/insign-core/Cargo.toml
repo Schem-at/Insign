@@ -1,6 +1,6 @@
 [package]
 name = "insign"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
 description = "Insign: a tiny DSL for Minecraft build regions & metadata"
