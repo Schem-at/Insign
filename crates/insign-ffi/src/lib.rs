@@ -3,12 +3,11 @@
 //! This crate exports a C ABI for the Insign DSL compiler, allowing
 //! integration with Kotlin/JVM applications like Spigot plugins.
 
-use std::ffi::CString;
-use std::os::raw::{c_char, c_int, c_void};
+use std::ffi::{c_void, CString};
+use std::os::raw::{c_char, c_int};
 use std::slice;
 
 use insign_core::compile;
-use serde_json;
 
 /// Input format for JSON compilation
 #[derive(serde::Deserialize)]
@@ -24,13 +23,13 @@ pub extern "C" fn insign_abi_version() -> u32 {
 }
 
 /// Compiles input JSON to output JSON via C ABI
-/// 
+///
 /// # Arguments
 /// * `input_ptr` - Pointer to UTF-8 JSON input (array of {pos: [x,y,z], text: "..."})
 /// * `input_len` - Length of input in bytes
 /// * `output_ptr` - Pointer to receive allocated output string pointer
 /// * `output_len` - Pointer to receive length of output string
-/// 
+///
 /// # Returns
 /// * 0 on success, non-zero on error
 /// * Always allocates output (either success JSON or error JSON)
@@ -44,11 +43,7 @@ pub extern "C" fn insign_compile_json(
 ) -> c_int {
     // Validate input parameters
     if input_ptr.is_null() || output_ptr.is_null() || output_len.is_null() {
-        return allocate_error_output(
-            output_ptr,
-            output_len,
-            "Invalid null pointer parameters",
-        );
+        return allocate_error_output(output_ptr, output_len, "Invalid null pointer parameters");
     }
 
     // Convert input to Rust string
@@ -57,11 +52,7 @@ pub extern "C" fn insign_compile_json(
         match std::str::from_utf8(input_slice) {
             Ok(s) => s,
             Err(_) => {
-                return allocate_error_output(
-                    output_ptr,
-                    output_len,
-                    "Input is not valid UTF-8",
-                )
+                return allocate_error_output(output_ptr, output_len, "Input is not valid UTF-8")
             }
         }
     };
@@ -160,15 +151,18 @@ fn allocate_output(output_ptr: *mut *mut c_char, output_len: *mut usize, content
 }
 
 /// Frees memory allocated by insign_compile_json
-/// 
+///
 /// # Arguments
 /// * `ptr` - Pointer returned by insign_compile_json
 /// * `len` - Length returned by insign_compile_json (ignored, but kept for API consistency)
+///
+/// # Safety
+/// This function is unsafe because it dereferences a raw pointer.
+/// The caller must ensure that `ptr` was allocated by insign_compile_json
+/// and has not been freed before.
 #[no_mangle]
-pub extern "C" fn insign_free(ptr: *mut c_void, _len: usize) {
+pub unsafe extern "C" fn insign_free(ptr: *mut c_void, _len: usize) {
     if !ptr.is_null() {
-        unsafe {
-            libc::free(ptr);
-        }
+        libc::free(ptr);
     }
 }

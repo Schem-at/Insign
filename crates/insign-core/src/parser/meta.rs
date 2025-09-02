@@ -1,5 +1,5 @@
-use crate::ParseError;
 use crate::parser::json_value::JsonValueParser;
+use crate::ParseError;
 use serde_json::Value;
 
 /// Types of metadata statements
@@ -33,11 +33,11 @@ impl<'a> MetadataParser<'a> {
     pub fn new(input: &'a str) -> Self {
         Self { input, position: 0 }
     }
-    
+
     /// Parse a metadata statement from the input
     pub fn parse(&mut self) -> Result<MetadataStatement, ParseError> {
         self.skip_whitespace();
-        
+
         // Expect '#' at the start
         if !self.consume_char('#') {
             return Err(ParseError::Expected {
@@ -46,11 +46,11 @@ impl<'a> MetadataParser<'a> {
                 position: self.position,
             });
         }
-        
+
         // Check if this is targeted metadata (contains ':')
         let _checkpoint = self.position;
         let target = self.parse_optional_target()?;
-        
+
         if let Some(target) = target {
             // Targeted metadata: expect ':' after target
             self.skip_whitespace();
@@ -62,10 +62,10 @@ impl<'a> MetadataParser<'a> {
                 });
             }
             self.skip_whitespace();
-            
+
             // Parse key
             let key = self.parse_key()?;
-            
+
             // Expect '='
             self.skip_whitespace();
             if !self.consume_char('=') {
@@ -76,17 +76,17 @@ impl<'a> MetadataParser<'a> {
                 });
             }
             self.skip_whitespace();
-            
+
             // Parse JSON value
             let remaining_input = &self.input[self.position..];
             let mut json_parser = JsonValueParser::new(remaining_input);
             let value = json_parser.parse()?;
-            
+
             Ok(MetadataStatement::Targeted { target, key, value })
         } else {
             // Current region metadata
             let key = self.parse_key()?;
-            
+
             // Expect '='
             self.skip_whitespace();
             if !self.consume_char('=') {
@@ -97,20 +97,20 @@ impl<'a> MetadataParser<'a> {
                 });
             }
             self.skip_whitespace();
-            
+
             // Parse JSON value
             let remaining_input = &self.input[self.position..];
             let mut json_parser = JsonValueParser::new(remaining_input);
             let value = json_parser.parse()?;
-            
+
             Ok(MetadataStatement::Current { key, value })
         }
     }
-    
+
     /// Parse an optional target (up to ':')
     fn parse_optional_target(&mut self) -> Result<Option<String>, ParseError> {
         let start_pos = self.position;
-        
+
         // Look for characters that could be part of a target
         while let Some(ch) = self.current_char() {
             if ch == ':' {
@@ -131,29 +131,35 @@ impl<'a> MetadataParser<'a> {
             }
             self.advance();
         }
-        
+
         // Reached end without finding ':' or '=', so no target
         self.position = start_pos; // Reset position
         Ok(None)
     }
-    
+
     /// Parse a metadata key
     fn parse_key(&mut self) -> Result<String, ParseError> {
         let start_pos = self.position;
-        
+
         // Parse key: [A-Za-z0-9_.]+
-        if !self.current_char().map_or(false, |ch| ch.is_alphanumeric() || ch == '_') {
+        if !self
+            .current_char()
+            .is_some_and(|ch| ch.is_alphanumeric() || ch == '_')
+        {
             return Err(ParseError::Expected {
                 expected: "metadata key",
                 found: self.current_char().unwrap_or('\0').to_string(),
                 position: self.position,
             });
         }
-        
-        while self.current_char().map_or(false, |ch| ch.is_alphanumeric() || ch == '_' || ch == '.') {
+
+        while self
+            .current_char()
+            .is_some_and(|ch| ch.is_alphanumeric() || ch == '_' || ch == '.')
+        {
             self.advance();
         }
-        
+
         let key = self.input[start_pos..self.position].to_string();
         if key.is_empty() {
             return Err(ParseError::Expected {
@@ -162,29 +168,29 @@ impl<'a> MetadataParser<'a> {
                 position: start_pos,
             });
         }
-        
+
         Ok(key)
     }
-    
+
     /// Skip whitespace characters
     fn skip_whitespace(&mut self) {
-        while self.current_char().map_or(false, |ch| ch.is_whitespace()) {
+        while self.current_char().is_some_and(|ch| ch.is_whitespace()) {
             self.advance();
         }
     }
-    
+
     /// Get the current character
     fn current_char(&self) -> Option<char> {
         self.input.chars().nth(self.position)
     }
-    
+
     /// Advance the position by one character
     fn advance(&mut self) {
         if self.position < self.input.len() {
             self.position += 1;
         }
     }
-    
+
     /// Consume a specific character if it matches
     fn consume_char(&mut self, expected: char) -> bool {
         if self.current_char() == Some(expected) {
@@ -200,12 +206,12 @@ impl<'a> MetadataParser<'a> {
 mod tests {
     use super::*;
     use serde_json::json;
-    
+
     #[test]
     fn test_parse_current_metadata_string() {
         let mut parser = MetadataParser::new(r#"#doc.label="Patch A""#);
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Current { key, value } => {
                 assert_eq!(key, "doc.label");
@@ -214,12 +220,12 @@ mod tests {
             _ => panic!("Expected Current metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_current_metadata_number() {
         let mut parser = MetadataParser::new("#logic.clock_hz=4");
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Current { key, value } => {
                 assert_eq!(key, "logic.clock_hz");
@@ -228,12 +234,12 @@ mod tests {
             _ => panic!("Expected Current metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_targeted_metadata() {
         let mut parser = MetadataParser::new(r#"#cpu.core:logic.clock_hz=4"#);
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Targeted { target, key, value } => {
                 assert_eq!(target, "cpu.core");
@@ -243,12 +249,12 @@ mod tests {
             _ => panic!("Expected Targeted metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_wildcard_metadata() {
         let mut parser = MetadataParser::new(r#"#cpu.*:power.budget="low""#);
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Targeted { target, key, value } => {
                 assert_eq!(target, "cpu.*");
@@ -258,12 +264,12 @@ mod tests {
             _ => panic!("Expected Targeted metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_global_metadata() {
         let mut parser = MetadataParser::new("#$global:io.bus_width=8");
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Targeted { target, key, value } => {
                 assert_eq!(target, "$global");
@@ -273,12 +279,12 @@ mod tests {
             _ => panic!("Expected Targeted metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_with_whitespace() {
         let mut parser = MetadataParser::new(r#"#  cpu.core  :  logic.clock_hz  =  4  "#);
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Targeted { target, key, value } => {
                 assert_eq!(target, "cpu.core");
@@ -288,12 +294,12 @@ mod tests {
             _ => panic!("Expected Targeted metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_complex_json() {
         let mut parser = MetadataParser::new(r#"#config={"enabled": true, "count": 42}"#);
         let result = parser.parse().unwrap();
-        
+
         match result {
             MetadataStatement::Current { key, value } => {
                 assert_eq!(key, "config");
@@ -302,21 +308,21 @@ mod tests {
             _ => panic!("Expected Current metadata"),
         }
     }
-    
+
     #[test]
     fn test_parse_error_missing_hash() {
         let mut parser = MetadataParser::new("key=value");
         let result = parser.parse();
         assert!(result.is_err());
     }
-    
+
     #[test]
     fn test_parse_error_missing_equals() {
         let mut parser = MetadataParser::new("#key");
         let result = parser.parse();
         assert!(result.is_err());
     }
-    
+
     #[test]
     fn test_parse_error_invalid_json() {
         let mut parser = MetadataParser::new("#key=invalid_json");

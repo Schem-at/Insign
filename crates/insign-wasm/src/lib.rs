@@ -3,10 +3,8 @@
 //! This crate exports a WASM interface for the Insign DSL compiler,
 //! allowing integration with web browsers and Node.js applications.
 
-use wasm_bindgen::prelude::*;
 use insign_core::compile;
-use serde_json;
-
+use wasm_bindgen::prelude::*;
 // Import the `console.log` function from the `console` module
 #[wasm_bindgen]
 extern "C" {
@@ -32,17 +30,20 @@ pub fn abi_version() -> u32 {
 }
 
 /// Compiles input JSON string to output JSON string
-/// 
+///
 /// # Arguments
 /// * `input` - UTF-8 JSON string (array of {pos: [x,y,z], text: "..."})
-/// 
+///
 /// # Returns
 /// * JSON string - either success result or structured error JSON
 /// * Never throws exceptions - all errors are returned as JSON
 #[wasm_bindgen]
 pub fn compile_json(input: String) -> String {
-    console_log!("WASM compile_json called with {} bytes of input", input.len());
-    
+    console_log!(
+        "WASM compile_json called with {} bytes of input",
+        input.len()
+    );
+
     // Parse JSON input
     let input_array: Vec<CompileInput> = match serde_json::from_str(&input) {
         Ok(arr) => arr,
@@ -53,7 +54,7 @@ pub fn compile_json(input: String) -> String {
     };
 
     console_log!("Parsed {} input entries", input_array.len());
-    
+
     // Convert to insign-core format
     let units: Vec<([i32; 3], String)> = input_array
         .into_iter()
@@ -72,7 +73,10 @@ pub fn compile_json(input: String) -> String {
                 }
                 Err(e) => {
                     console_log!("Serialization error: {}", e);
-                    create_error_json("SerializationError", &format!("JSON serialization error: {}", e))
+                    create_error_json(
+                        "SerializationError",
+                        &format!("JSON serialization error: {}", e),
+                    )
                 }
             }
         }
@@ -91,7 +95,7 @@ fn create_error_json(code: &str, message: &str) -> String {
         "code": code,
         "message": message
     });
-    
+
     serde_json::to_string(&error_json).unwrap_or_else(|_| {
         r#"{"status":"error","code":"UnknownError","message":"Failed to serialize error response"}"#.to_string()
     })

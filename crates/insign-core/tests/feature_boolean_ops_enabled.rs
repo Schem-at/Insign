@@ -1,7 +1,6 @@
 #[cfg(feature = "boolean_ops")]
 mod boolean_ops_tests {
-    use insign_core::{DslMap, compile};
-    use serde_json::json;
+    use insign_core::compile;
 
     #[test]
     fn test_difference_operation_simple() {
@@ -13,16 +12,16 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
-        
+
         // Should have multiple boxes representing the difference
         assert!(!boxes.is_empty());
-        
+
         // Original base box minus hole should result in multiple boxes
         // The exact number depends on the implementation, but should be > 1
         assert!(boxes.len() > 1);
@@ -38,13 +37,13 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
-        
+
         // Should have exactly one box representing the intersection
         assert_eq!(boxes.len(), 1);
         assert_eq!(boxes[0], ([2, 2, 2], [4, 4, 4])); // Intersection area
@@ -60,13 +59,13 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
-        
+
         // XOR should result in multiple boxes (box1-box2 + box2-box1)
         assert!(boxes.len() > 1);
     }
@@ -86,10 +85,10 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         // Just verify it compiled successfully with the expected precedence
         let result_region = &dsl_map["result"];
         assert!(result_region.bounding_boxes.is_some());
@@ -100,23 +99,23 @@ mod boolean_ops_tests {
         // Test: (a + b) & c should be different from a + b & c
         // Using boxes that will produce different results based on precedence
         let units = vec![
-            ([0, 0, 0], "@a=rc([0,0,0],[1,1,1])".to_string()),   // Small box at origin
-            ([0, 0, 0], "@b=rc([3,3,3],[6,6,6])".to_string()),   // Box that intersects with c
-            ([0, 0, 0], "@c=rc([0,0,0],[4,4,4])".to_string()),   // Box covering a and part of b
-            ([0, 0, 0], "@result1=a+b&c".to_string()),          // Should be a+(b&c)
-            ([0, 0, 0], "@result2=(a+b)&c".to_string()),        // Should be (a+b)&c
+            ([0, 0, 0], "@a=rc([0,0,0],[1,1,1])".to_string()), // Small box at origin
+            ([0, 0, 0], "@b=rc([3,3,3],[6,6,6])".to_string()), // Box that intersects with c
+            ([0, 0, 0], "@c=rc([0,0,0],[4,4,4])".to_string()), // Box covering a and part of b
+            ([0, 0, 0], "@result1=a+b&c".to_string()),         // Should be a+(b&c)
+            ([0, 0, 0], "@result2=(a+b)&c".to_string()),       // Should be (a+b)&c
         ];
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result1"));
         assert!(dsl_map.contains_key("result2"));
-        
+
         let result1_boxes = dsl_map["result1"].bounding_boxes.as_ref().unwrap();
         let result2_boxes = dsl_map["result2"].bounding_boxes.as_ref().unwrap();
-        
+
         // result1 = a+(b&c) = a+[intersection of b and c] = [a, intersection]
         // result2 = (a+b)&c = [a,b]&c = [intersection of a&c, intersection of b&c]
         // result1 should have 2 boxes: a + (b&c)
@@ -143,10 +142,10 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         assert!(result_region.bounding_boxes.is_some());
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
@@ -164,13 +163,13 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
-        
+
         // No intersection should result in empty box list
         assert_eq!(boxes.len(), 0);
     }
@@ -186,13 +185,13 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
-        
+
         // No overlap means original box should remain unchanged
         assert_eq!(boxes.len(), 1);
         assert_eq!(boxes[0], ([0, 0, 0], [2, 2, 2]));
@@ -209,13 +208,13 @@ mod boolean_ops_tests {
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
-        
+
         let result_region = &dsl_map["result"];
         let boxes = result_region.bounding_boxes.as_ref().unwrap();
-        
+
         // Complete subtraction should result in no boxes
         assert_eq!(boxes.len(), 0);
     }
@@ -227,20 +226,20 @@ mod boolean_ops_tests {
             ([0, 0, 0], "@a=rc([0,0,0],[4,4,4])".to_string()),
             ([0, 0, 0], "@b=rc([1,1,1],[2,2,2])".to_string()),
             ([0, 0, 0], "@c=rc([3,3,3],[3,3,3])".to_string()),
-            ([0, 0, 0], "@result1=a-b-c".to_string()),           // Should be (a-b)-c
-            ([0, 0, 0], "@result2=(a-b)-c".to_string()),         // Explicit grouping
+            ([0, 0, 0], "@result1=a-b-c".to_string()), // Should be (a-b)-c
+            ([0, 0, 0], "@result2=(a-b)-c".to_string()), // Explicit grouping
         ];
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result1"));
         assert!(dsl_map.contains_key("result2"));
-        
+
         let result1_boxes = dsl_map["result1"].bounding_boxes.as_ref().unwrap();
         let result2_boxes = dsl_map["result2"].bounding_boxes.as_ref().unwrap();
-        
+
         // Results should be identical due to left-to-right associativity
         assert_eq!(result1_boxes, result2_boxes);
     }
@@ -249,25 +248,47 @@ mod boolean_ops_tests {
     fn test_performance_with_many_boxes() {
         // Test with multiple accumulator boxes to verify performance is reasonable
         let mut units = Vec::new();
-        
+
         // Create a region with many boxes
         units.push(([0, 0, 0], "@base=rc([0,0,0],[1,1,1])".to_string()));
         for i in 1..20 {
-            units.push(([0, 0, 0], format!("@base=rc([{},{},{}],[{},{},{}])", i, i, i, i+1, i+1, i+1)));
+            units.push((
+                [0, 0, 0],
+                format!(
+                    "@base=rc([{},{},{}],[{},{},{}])",
+                    i,
+                    i,
+                    i,
+                    i + 1,
+                    i + 1,
+                    i + 1
+                ),
+            ));
         }
-        
+
         // Create another region with many boxes
         units.push(([0, 0, 0], "@other=rc([5,5,5],[6,6,6])".to_string()));
         for i in 6..15 {
-            units.push(([0, 0, 0], format!("@other=rc([{},{},{}],[{},{},{}])", i, i, i, i+1, i+1, i+1)));
+            units.push((
+                [0, 0, 0],
+                format!(
+                    "@other=rc([{},{},{}],[{},{},{}])",
+                    i,
+                    i,
+                    i,
+                    i + 1,
+                    i + 1,
+                    i + 1
+                ),
+            ));
         }
-        
+
         // Perform intersection
         units.push(([0, 0, 0], "@result=base&other".to_string()));
-        
+
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         assert!(dsl_map.contains_key("result"));
     }
@@ -279,15 +300,15 @@ mod boolean_ops_tests {
             ([0, 0, 0], "@a=rc([0,0,0],[3,3,3])".to_string()),
             ([0, 0, 0], "@b=rc([1,1,1],[4,4,4])".to_string()),
             ([0, 0, 0], "@c=rc([2,2,2],[5,5,5])".to_string()),
-            ([0, 0, 0], "@step1=a+b".to_string()),           // Union
-            ([0, 0, 0], "@step2=step1&c".to_string()),       // Intersection
-            ([0, 0, 0], "@step3=step2-a".to_string()),       // Difference
-            ([0, 0, 0], "@final=step3^b".to_string()),       // XOR
+            ([0, 0, 0], "@step1=a+b".to_string()),     // Union
+            ([0, 0, 0], "@step2=step1&c".to_string()), // Intersection
+            ([0, 0, 0], "@step3=step2-a".to_string()), // Difference
+            ([0, 0, 0], "@final=step3^b".to_string()), // XOR
         ];
 
         let result = compile(&units);
         assert!(result.is_ok());
-        
+
         let dsl_map = result.unwrap();
         for region in ["step1", "step2", "step3", "final"] {
             assert!(dsl_map.contains_key(region), "Missing region: {}", region);

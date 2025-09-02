@@ -14,9 +14,13 @@ pub struct MetaStmt {
 impl MetaStmt {
     /// Create a new metadata statement
     pub fn new(tuple_idx: usize, stmt_idx: usize, statement: MetadataStatement) -> Self {
-        Self { tuple_idx, stmt_idx, statement }
+        Self {
+            tuple_idx,
+            stmt_idx,
+            statement,
+        }
     }
-    
+
     /// Get the target region for this metadata
     /// For current region metadata, returns None (needs to be resolved later)
     /// For targeted metadata, returns the explicit target
@@ -26,7 +30,7 @@ impl MetaStmt {
             MetadataStatement::Targeted { target, .. } => Some(target),
         }
     }
-    
+
     /// Check if this is current region metadata
     pub fn is_current_region(&self) -> bool {
         matches!(self.statement, MetadataStatement::Current { .. })

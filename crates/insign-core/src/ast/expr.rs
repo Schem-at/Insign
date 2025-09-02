@@ -21,37 +21,37 @@ impl BooleanExpr {
     pub fn union(left: BooleanExpr, right: BooleanExpr) -> Self {
         BooleanExpr::Union(Box::new(left), Box::new(right))
     }
-    
+
     /// Create a difference of two expressions
     #[cfg(feature = "boolean_ops")]
     pub fn difference(left: BooleanExpr, right: BooleanExpr) -> Self {
         BooleanExpr::Difference(Box::new(left), Box::new(right))
     }
-    
+
     /// Create an intersection of two expressions
     #[cfg(feature = "boolean_ops")]
     pub fn intersection(left: BooleanExpr, right: BooleanExpr) -> Self {
         BooleanExpr::Intersection(Box::new(left), Box::new(right))
     }
-    
+
     /// Create an XOR of two expressions
     #[cfg(feature = "boolean_ops")]
     pub fn xor(left: BooleanExpr, right: BooleanExpr) -> Self {
         BooleanExpr::Xor(Box::new(left), Box::new(right))
     }
-    
+
     /// Create a region reference
     pub fn region_ref(name: impl Into<String>) -> Self {
         BooleanExpr::RegionRef(name.into())
     }
-    
+
     /// Get all region references mentioned in this expression
     pub fn region_refs(&self) -> Vec<&str> {
         let mut refs = Vec::new();
         self.collect_region_refs(&mut refs);
         refs
     }
-    
+
     fn collect_region_refs<'a>(&'a self, refs: &mut Vec<&'a str>) {
         match self {
             BooleanExpr::RegionRef(name) => refs.push(name),
@@ -60,9 +60,9 @@ impl BooleanExpr {
                 right.collect_region_refs(refs);
             }
             #[cfg(feature = "boolean_ops")]
-            BooleanExpr::Difference(left, right) |
-            BooleanExpr::Intersection(left, right) |
-            BooleanExpr::Xor(left, right) => {
+            BooleanExpr::Difference(left, right)
+            | BooleanExpr::Intersection(left, right)
+            | BooleanExpr::Xor(left, right) => {
                 left.collect_region_refs(refs);
                 right.collect_region_refs(refs);
             }
