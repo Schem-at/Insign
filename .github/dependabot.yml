@@ -1,0 +1,41 @@
+version: 2
+updates:
+  # Enable version updates for Rust/Cargo
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "harrison"  # Replace with your GitHub username
+    assignees:
+      - "harrison"  # Replace with your GitHub username
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      rust-core:
+        patterns:
+          - "serde*"
+          - "indexmap"
+          - "thiserror"
+      testing:
+        patterns:
+          - "insta"
+          - "proptest" 
+          - "tempfile"
+      wasm:
+        patterns:
+          - "wasm-bindgen*"
+          - "web-sys"
+          - "js-sys"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+      include: "scope"

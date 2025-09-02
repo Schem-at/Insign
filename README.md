@@ -1,5 +1,11 @@
 # Insign — a tiny DSL for Minecraft build regions & metadata
 
+[![CI](https://github.com/Schem-at/Insign/workflows/CI/badge.svg)](https://github.com/Schem-at/Insign/actions/workflows/ci.yml)
+[![Security](https://github.com/Schem-at/Insign/workflows/Security/badge.svg)](https://github.com/Schem-at/Insign/actions/workflows/security.yml)
+[![Crates.io](https://img.shields.io/crates/v/insign-core.svg)](https://crates.io/crates/insign-core)
+[![Documentation](https://docs.rs/insign-core/badge.svg)](https://docs.rs/insign-core)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 > **Goal:** author compact annotations on **signs/books** (or any text source) that compile into a deterministic **regions + metadata** structure you can ship with schematics and tools.
 
 * **Regions** = unions of axis-aligned boxes (AABBs) keyed by IDs like `cpu.core`
@@ -249,6 +255,142 @@ current-meta   = key, "=", json ;
 
 meta-target    = "$global" | region-id | region-id, ".*" ;
 json           = RFC 8259 JSON literal ;
+```
+
+---
+
+## Installation & Usage
+
+### Rust Library
+
+Add to your `Cargo.toml`:
+
+```toml
+[dependencies]
+insign-core = "0.1.0"
+
+# For FFI bindings (Kotlin/JVM integration)
+insign-ffi = "0.1.0"
+
+# For WASM bindings (Web/Node.js)
+insign-wasm = "0.1.0"
+```
+
+**Basic usage:**
+
+```rust
+use insign_core::compile;
+
+let input = vec![
+    ([10, 64, 10], "@rc([0,0,0],[3,2,1])\n#doc.label=\"Patch A\"".to_string()),
+];
+
+let result = compile(&input)?;
+let json = serde_json::to_string_pretty(&result)?;
+println!("{}", json);
+```
+
+### CLI Tool
+
+Install from crates.io:
+
+```bash
+cargo install insign-core --features=cli
+```
+
+Or download pre-built binaries from the [GitHub Releases](https://github.com/Schem-at/Insign/releases) page.
+
+```bash
+echo '{"pos": [0,0,0], "text": "@rc([0,0,0],[1,1,1])\\n#test=1"}' | insign-cli --pretty
+```
+
+### FFI (Kotlin/JVM)
+
+Download the appropriate native library from [GitHub Releases](https://github.com/Schem-at/Insign/releases):
+
+- Linux: `libinsign_ffi.so`
+- macOS: `libinsign_ffi.dylib` 
+- Windows: `insign_ffi.dll`
+
+```kotlin
+// Example Kotlin integration (requires JNA)
+val library = Native.load("insign_ffi", InsignLibrary::class.java)
+val json = "[{\"pos\":[0,0,0],\"text\":\"@rc([0,0,0],[1,1,1])\"}]"
+val result = library.compile_json(json)
+println(result)
+```
+
+### WASM (Web/Node.js)
+
+**Node.js:**
+
+```bash
+npm install @schem-at/insign-wasm
+```
+
+```javascript
+const { compile_json } = require('@schem-at/insign-wasm');
+
+const input = JSON.stringify([
+  { pos: [0,0,0], text: "@rc([0,0,0],[1,1,1])\n#test=1" }
+]);
+
+const result = compile_json(input);
+console.log(JSON.parse(result));
+```
+
+**Browser:**
+
+```html
+<script type="module">
+import init, { compile_json } from './pkg/insign.js';
+
+async function run() {
+  await init();
+  
+  const input = JSON.stringify([
+    { pos: [0,0,0], text: "@rc([0,0,0],[1,1,1])\n#test=1" }
+  ]);
+  
+  const result = compile_json(input);
+  console.log(JSON.parse(result));
+}
+
+run();
+</script>
+```
+
+---
+
+## Development
+
+### Building from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/Schem-at/Insign.git
+cd Insign
+
+# Build all packages
+cargo build --all --release
+
+# Run tests
+cargo test --all
+
+# Build FFI library
+cargo build -p insign-ffi --release
+
+# Build WASM package
+cd crates/insign-wasm
+wasm-pack build --release --target nodejs --out-dir pkg --out-name insign
+```
+
+### Parity Testing
+
+To verify that FFI and WASM produce identical outputs:
+
+```bash
+./tools/scripts/parity-simple.sh
 ```
 
 ---
