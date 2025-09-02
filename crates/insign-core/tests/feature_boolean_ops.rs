@@ -3,7 +3,7 @@
 
 #[cfg(feature = "boolean_ops")]
 mod boolean_ops_enabled_tests {
-    use insign_core::compile;
+    use insign::compile;
 
     #[test]
     fn test_boolean_ops_enabled_minus_works() {

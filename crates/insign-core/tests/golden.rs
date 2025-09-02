@@ -1,4 +1,4 @@
-use insign_core::{compile, DslMap};
+use insign::{compile, DslMap};
 use std::fs;
 use std::path::Path;
 
@@ -38,9 +38,9 @@ fn get_fixtures() -> Vec<Fixture> {
 }
 
 /// Parse fixture input and compile it
-fn compile_fixture(input_path: &str) -> Result<DslMap, insign_core::Error> {
+fn compile_fixture(input_path: &str) -> Result<DslMap, insign::Error> {
     let input_text = fs::read_to_string(input_path).map_err(|e| {
-        insign_core::Error::Parser(insign_core::ParseError::Internal {
+        insign::Error::Parser(insign::ParseError::Internal {
             message: format!("Failed to read fixture file: {}", e),
             position: 0,
         })

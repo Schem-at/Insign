@@ -7,7 +7,7 @@ use std::ffi::{c_void, CString};
 use std::os::raw::{c_char, c_int};
 use std::slice;
 
-use insign::{compile, DslMap, Error};
+use insign::compile;
 
 /// Input format for JSON compilation
 #[derive(serde::Deserialize)]

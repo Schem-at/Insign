@@ -15,9 +15,6 @@ serde_json = "1"
 thiserror = "1"
 clap = { version = "4", features = ["derive"] }
 
-# Keep output ordering deterministic
-indexmap = { version = "2", features = ["serde"] }
-
 [[bin]]
 name = "insign-cli"
 path = "src/bin/insign-cli.rs"
@@ -32,5 +29,5 @@ proptest = "1"
 tempfile = "3"
 
 [lib]
-name = "insign_core"
+name = "insign"
 path = "src/lib.rs"

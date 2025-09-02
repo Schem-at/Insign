@@ -60,7 +60,7 @@ fn main() {
     };
 
     // Compile using the insign library
-    match insign_core::compile(&units) {
+    match insign::compile(&units) {
         Ok(dsl_map) => {
             // Output compiled result to stdout
             let json_output = if matches.get_flag("pretty") {
@@ -132,8 +132,8 @@ fn parse_jsonl_input(
 }
 
 /// Format compilation error for CLI output with enhanced diagnostics
-fn format_compile_error(error: &insign_core::Error) -> CliError {
-    use insign_core::Error::*;
+fn format_compile_error(error: &insign::Error) -> CliError {
+    use insign::Error::*;
 
     match error {
         Parser(parse_err) => CliError {

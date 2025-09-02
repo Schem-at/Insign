@@ -1,6 +1,6 @@
 #[cfg(feature = "boolean_ops")]
 mod boolean_ops_tests {
-    use insign_core::compile;
+    use insign::compile;
 
     #[test]
     fn test_difference_operation_simple() {
