@@ -5,16 +5,6 @@
 
 use insign_core::compile;
 use wasm_bindgen::prelude::*;
-// Import the `console.log` function from the `console` module
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
-
-macro_rules! console_log {
-    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
-}
 
 /// Input format for JSON compilation
 #[derive(serde::Deserialize)]
@@ -39,21 +29,13 @@ pub fn abi_version() -> u32 {
 /// * Never throws exceptions - all errors are returned as JSON
 #[wasm_bindgen]
 pub fn compile_json(input: String) -> String {
-    console_log!(
-        "WASM compile_json called with {} bytes of input",
-        input.len()
-    );
-
     // Parse JSON input
     let input_array: Vec<CompileInput> = match serde_json::from_str(&input) {
         Ok(arr) => arr,
         Err(e) => {
-            console_log!("JSON parse error: {}", e);
             return create_error_json("JSONParseError", &format!("JSON parse error: {}", e));
         }
     };
-
-    console_log!("Parsed {} input entries", input_array.len());
 
     // Convert to insign-core format
     let units: Vec<([i32; 3], String)> = input_array
@@ -64,24 +46,16 @@ pub fn compile_json(input: String) -> String {
     // Compile using insign-core
     match compile(&units) {
         Ok(dsl_map) => {
-            console_log!("Compilation successful, serializing result");
             // Success - serialize output
             match serde_json::to_string(&dsl_map) {
-                Ok(json) => {
-                    console_log!("Serialization successful, returning {} bytes", json.len());
-                    json
-                }
-                Err(e) => {
-                    console_log!("Serialization error: {}", e);
-                    create_error_json(
-                        "SerializationError",
-                        &format!("JSON serialization error: {}", e),
-                    )
-                }
+                Ok(json) => json,
+                Err(e) => create_error_json(
+                    "SerializationError",
+                    &format!("JSON serialization error: {}", e),
+                ),
             }
         }
         Err(e) => {
-            console_log!("Compilation error: {}", e);
             // Compilation error - return structured error JSON
             create_error_json("CompilationError", &format!("{}", e))
         }
