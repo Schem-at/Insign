@@ -320,11 +320,6 @@ jobs:
         name: wasm-release
         path: wasm-release
 
-    - name: Update package.json version
-      run: |
-        cd wasm-release/nodejs
-        npm version ${{ needs.verify-version.outputs.version }} --no-git-tag-version
-
     - name: Publish to npm
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
