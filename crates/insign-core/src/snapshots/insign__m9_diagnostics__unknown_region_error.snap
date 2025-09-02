@@ -1,0 +1,5 @@
+---
+source: src/lib.rs
+expression: error_message
+---
+Parser error: Unknown region 'nonexistent' referenced in expression at SourceLocation { tuple_idx: 0, stmt_idx: 0 }

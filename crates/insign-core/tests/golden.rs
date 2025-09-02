@@ -1,7 +1,7 @@
 use std::fs;
 use std::path::Path;
 use serde_json;
-use insign::{compile, DslMap};
+use insign_core::{compile, DslMap};
 
 /// Test fixture metadata
 struct Fixture {
@@ -39,9 +39,9 @@ fn get_fixtures() -> Vec<Fixture> {
 }
 
 /// Parse fixture input and compile it
-fn compile_fixture(input_path: &str) -> Result<DslMap, insign::Error> {
+fn compile_fixture(input_path: &str) -> Result<DslMap, insign_core::Error> {
     let input_text = fs::read_to_string(input_path)
-        .map_err(|e| insign::Error::Parser(insign::ParseError::Internal {
+        .map_err(|e| insign_core::Error::Parser(insign_core::ParseError::Internal {
             message: format!("Failed to read fixture file: {}", e),
             position: 0,
         }))?;

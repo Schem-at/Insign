@@ -1,0 +1,5 @@
+---
+source: src/lib.rs
+expression: error_message
+---
+Parser error: No current region found for metadata statement at tuple 0 statement 0. Hint: Metadata statements like '#key=value' must be placed after a geometry statement (@rc, @ac, or @region=expr) in the same tuple.

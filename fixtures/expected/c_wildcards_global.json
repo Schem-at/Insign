@@ -1,0 +1,50 @@
+{
+  "$global": {
+    "metadata": {
+      "io.bus_width": 8
+    }
+  },
+  "cpu.*": {
+    "metadata": {
+      "logic.clock_hz": 4
+    }
+  },
+  "cpu.unit1": {
+    "bounding_boxes": [
+      [
+        [
+          0,
+          64,
+          0
+        ],
+        [
+          2,
+          66,
+          2
+        ]
+      ]
+    ],
+    "metadata": {
+      "logic.clock_hz": 4
+    }
+  },
+  "cpu.unit2": {
+    "bounding_boxes": [
+      [
+        [
+          15,
+          64,
+          10
+        ],
+        [
+          17,
+          66,
+          12
+        ]
+      ]
+    ],
+    "metadata": {
+      "logic.clock_hz": 4
+    }
+  }
+}

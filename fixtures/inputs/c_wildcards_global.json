@@ -1,0 +1,4 @@
+[
+  { "pos": [0, 64, 0], "text": "@cpu.unit1=rc([0,0,0],[2,2,2])\n#cpu.*:logic.clock_hz=4" },
+  { "pos": [10, 64, 10], "text": "@cpu.unit2=rc([5,0,0],[7,2,2])\n#$global:io.bus_width=8" }
+]

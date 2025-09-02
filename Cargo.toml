@@ -1,32 +1,7 @@
-[package]
-name = "insign"
-version = "0.1.0"
-edition = "2021"
-license = "MIT"
-description = "Insign: a tiny DSL for Minecraft build regions & metadata"
-repository = "https://github.com/Schem-at/Insign"
-readme = "README.md"
-keywords = ["minecraft", "dsl", "schematics", "regions", "metadata"]
-categories = ["parsing", "data-structures"]
-
-[dependencies]
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-thiserror = "1"
-clap = { version = "4", features = ["derive"] }
-
-# Keep output ordering deterministic
-indexmap = { version = "2", features = ["serde"] }
-
-[[bin]]
-name = "insign-cli"
-path = "src/bin/insign-cli.rs"
-
-[features]
-default = []
-boolean_ops = []
-
-[dev-dependencies]
-insta = { version = "1", features = ["yaml"] }
-proptest = "1"
-tempfile = "3"
+[workspace]
+members = [
+    "crates/insign-core",
+    "crates/insign-ffi",
+    "crates/insign-wasm",
+]
+resolver = "2"

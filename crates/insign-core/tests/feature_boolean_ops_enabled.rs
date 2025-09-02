@@ -1,6 +1,6 @@
 #[cfg(feature = "boolean_ops")]
 mod boolean_ops_tests {
-    use insign::{DslMap, compile};
+    use insign_core::{DslMap, compile};
     use serde_json::json;
 
     #[test]

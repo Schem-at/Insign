@@ -1,0 +1,5 @@
+{
+  "error": "Parse error: Metadata conflict for region 'test' key 'value': different values across tuples. First: 1 at tuple 0 statement 1, Conflict: 2 at tuple 1 statement 1",
+  "tuple_index": null,
+  "statement_index": null
+}

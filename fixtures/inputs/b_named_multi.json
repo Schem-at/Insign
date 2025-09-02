@@ -1,0 +1,4 @@
+[
+  { "pos": [0, 64, 0], "text": "@cpu.core=rc([100,70,-20],[104,72,-18])\n#cpu.core:logic.clock_hz=4" },
+  { "pos": [10, 64, 10], "text": "@cpu.core=rc([100,73,-20],[104,75,-18])\n#cpu.core:logic.cache_mb=2" }
+]

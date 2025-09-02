@@ -1,0 +1,4 @@
+[
+  { "pos": [0, 64, 0], "text": "@test=rc([0,0,0],[1,1,1])\n#test:value=1" },
+  { "pos": [10, 64, 10], "text": "@other=rc([5,0,0],[6,1,1])\n#test:value=2" }
+]

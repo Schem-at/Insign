@@ -1,0 +1,21 @@
+{
+  "__anon_0_0": {
+    "bounding_boxes": [
+      [
+        [
+          10,
+          64,
+          10
+        ],
+        [
+          13,
+          66,
+          11
+        ]
+      ]
+    ],
+    "metadata": {
+      "doc.label": "Patch A"
+    }
+  }
+}

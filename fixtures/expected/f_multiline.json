@@ -1,0 +1,23 @@
+{
+  "complex_region": {
+    "bounding_boxes": [
+      [
+        [
+          10,
+          84,
+          30
+        ],
+        [
+          40,
+          114,
+          60
+        ]
+      ]
+    ],
+    "metadata": {
+      "metadata.active": true,
+      "metadata.capacity": 1000,
+      "metadata.type": "storage"
+    }
+  }
+}

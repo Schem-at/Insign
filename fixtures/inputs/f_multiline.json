@@ -1,0 +1,3 @@
+[
+  { "pos": [0, 64, 0], "text": "@complex_region=rc([10,20,30],[40,50,60])\n#complex_region:metadata.type=\"storage\"\n#complex_region:metadata.capacity=1000\n#complex_region:metadata.active=true" }
+]

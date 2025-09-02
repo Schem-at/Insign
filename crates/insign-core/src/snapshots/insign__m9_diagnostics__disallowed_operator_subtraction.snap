@@ -1,0 +1,5 @@
+---
+source: src/lib.rs
+expression: error_message
+---
+Parser error: Phase 0 supports only '+' operator at position 9. Found '-'

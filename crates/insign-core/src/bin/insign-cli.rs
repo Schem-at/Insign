@@ -62,7 +62,7 @@ fn main() {
     };
 
     // Compile using the insign library
-    match insign::compile(&units) {
+    match insign_core::compile(&units) {
         Ok(dsl_map) => {
             // Output compiled result to stdout
             let json_output = if matches.get_flag("pretty") {
@@ -127,8 +127,8 @@ fn parse_jsonl_input(reader: Box<dyn BufRead>) -> Result<Vec<([i32; 3], String)>
 }
 
 /// Format compilation error for CLI output with enhanced diagnostics
-fn format_compile_error(error: &insign::Error) -> CliError {
-    use insign::Error::*;
+fn format_compile_error(error: &insign_core::Error) -> CliError {
+    use insign_core::Error::*;
     
     match error {
         Parser(parse_err) => {

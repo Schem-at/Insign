@@ -1,0 +1,5 @@
+---
+source: crates/insign-core/src/lib.rs
+expression: error_message
+---
+Parser error: Region 'cpu' cannot be both accumulator and defined. Accumulator sources: [SourceLocation { tuple_idx: 0, stmt_idx: 0 }], defined source: SourceLocation { tuple_idx: 1, stmt_idx: 0 }
