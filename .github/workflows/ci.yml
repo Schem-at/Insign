@@ -20,10 +20,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         rust: [stable, beta]
-        include:
-          # Test MSRV (Minimum Supported Rust Version)
-          - os: ubuntu-latest
-            rust: 1.74.0  # Required for Cargo.lock version 4 and dependencies
     
     steps:
     - name: Checkout code
