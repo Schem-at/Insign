@@ -10,9 +10,9 @@ echo "========================================"
 echo "Step 1: Building all targets"
 
 # Build core
-echo "  Building insign-core..."
-cargo build -p insign-core --release >/dev/null 2>&1
-echo "  ✅ insign-core built successfully"
+echo "  Building insign..."
+cargo build -p insign --release >/dev/null 2>&1
+echo "  ✅ insign built successfully"
 
 # Build FFI  
 echo "  Building insign-ffi..."
